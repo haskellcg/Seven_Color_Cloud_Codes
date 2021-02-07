@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{22FBEC73-6DF5-47F7-A08E-CE4ADC56668A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DAL</RootNamespace>
+    <AssemblyName>DAL</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DBConnection.cs" />
+    <Compile Include="DisplayDAL\IndInfoDisDAL.cs" />
+    <Compile Include="DisplayDAL\MerchantListDAL.cs" />
+    <Compile Include="DisplayDAL\MerchantListRecommand.cs" />
+    <Compile Include="DisplayDAL\MerInfoDisplay.cs" />
+    <Compile Include="McManaDAL\AccountManaDAL.cs" />
+    <Compile Include="McManaDAL\CommentDAL.cs" />
+    <Compile Include="McManaDAL\JoinManaDAL.cs" />
+    <Compile Include="McManaDAL\LoginManaDAL.cs" />
+    <Compile Include="McManaDAL\MemInfoMana.cs" />
+    <Compile Include="McManaDAL\MerInfoMaintDAL.cs" />
+    <Compile Include="McManaDAL\PdInfoMaintain.cs" />
+    <Compile Include="McManaDAL\ReportManaDAL.cs" />
+    <Compile Include="OveralManaDAL\AdminMana.cs" />
+    <Compile Include="OveralManaDAL\CityManaDAL.cs" />
+    <Compile Include="OveralManaDAL\IndManaDAL.cs" />
+    <Compile Include="OveralManaDAL\JoinCheckDAL.cs" />
+    <Compile Include="OveralManaDAL\MerchantManaDAL.cs" />
+    <Compile Include="OveralManaDAL\MsgManaDAL.cs" />
+    <Compile Include="OveralManaDAL\PrdManaDAL.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="OveralManaDAL\AuthMana.cs" />
+    <Compile Include="SysManaDAL\LoginManaDAL.cs" />
+    <Compile Include="UnionNewsMana\UnionNewsMana.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Entity\Entity.csproj">
+      <Project>{951028B7-A57A-452B-8E5E-B2E57F165649}</Project>
+      <Name>Entity</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

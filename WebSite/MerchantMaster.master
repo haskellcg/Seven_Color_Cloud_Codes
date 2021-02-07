@@ -1,0 +1,27 @@
+﻿<%@ Master Language="C#" MasterPageFile="~/MainMaster.master" AutoEventWireup="false" CodeFile="MerchantMaster.master.cs" Inherits="MerchantMaster" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+<asp:ContentPlaceHolder ID="MerHead" runat="server"></asp:ContentPlaceHolder>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="HeadBar" Runat="Server">
+  
+	 <br />
+	 <%
+         DAL.OveralManaDAL.MsgManaDAL ms = new DAL.OveralManaDAL.MsgManaDAL();
+	      
+	     
+	         %>
+  <div class="container clearfix">
+    <a href="#" id="logo">
+      <img src="<%= Request.ApplicationPath%>/images/logoS.gif" alt="七彩云商家联盟" height="67" width="400">    </a>
+      
+	 <div style="float:right;font-size:14px; margin-top:50px; margin-right:-60px;"><a href="<%= Request.ApplicationPath%>/MerchantManage/MerShowInfoMaintain.aspx">管理首页</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="<%= Request.ApplicationPath%>/MerchantManage/MessageMana/MessageBox.aspx">站内信[未读(<%=ms.QueryNewMsg(Convert.ToInt32(Session["user_ID"])) %>)]</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+	 <a href="<%= Request.ApplicationPath%>/MerchantManage/MerchantLogin/Logout.aspx">注销</a></div>
+  </div>
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="SearchBar" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="ContentBar" Runat="Server">
+<asp:ContentPlaceHolder ID="MerContent" runat="server"></asp:ContentPlaceHolder>
+</asp:Content>
+

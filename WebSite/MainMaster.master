@@ -1,0 +1,88 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MainMaster.master.cs" Inherits="MainMaster" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" class="csstransforms no-csstransforms3d csstransitions">
+<head runat="server">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"><script src="index_files/user_timeline" async=""></script>
+<meta charset="utf-8">
+    <title></title>
+    <asp:ContentPlaceHolder id="head" runat="server">
+    </asp:ContentPlaceHolder>
+<script src="index_files/html5.js"></script>
+<link href="index_files/css.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="index_files/style.css">
+<link id="color" rel="stylesheet" href="index_files/color1.css">
+<link rel="stylesheet" type="text/css" href="index_files/jquery.css" media="screen">
+<link rel="stylesheet" href="index_files/mediaelementplayer.css">
+<link href="colorbox/colorbox.html" rel="stylesheet" type="text/css" media="screen">
+<script src="index_files/commonutilstats.js" charset="UTF-8" type="text/javascript"></script>
+</head>
+<body>
+<header id="header" class="clearfix">
+  <div class="headerstrip"><div class="spiral"></div></div>
+  <asp:ContentPlaceHolder ID="HeadBar" runat="server">
+  </asp:ContentPlaceHolder>
+</header>
+<div style="margin-bottom:40px; margin-top:20px; padding-bottom:40px; padding-right:120px;">
+    <asp:ContentPlaceHolder ID="SearchBar" runat="server">
+    </asp:ContentPlaceHolder>
+</div>
+<asp:ContentPlaceHolder ID="ContentBar" runat="server">
+</asp:ContentPlaceHolder>
+<!--页脚-->
+<!--Footer Start-->
+<footer id="footer" class="clearfix">
+  <div class="footerbg clearfix">
+    <ul class="footersection container">
+      <li class="testimonial">
+        <h4>站长寄语</h4>
+        <p class="testi">
+         我们致力于为商家与客户搭建一个沟通、交流的平台，如果你有任何的意见或者建议，请联系我们
+        </p>
+    
+        <span>陈帅<br>
+        项目经理</span>
+      </li>
+      <li class="links">
+        <h4>与我们有关</h4>
+        <ul>
+          <li>
+            <a href="#">打电话给我们</a>
+          </li>
+          <li>
+            <a href="#">发邮件给我们</a>
+          </li>
+		  <li>
+            <a href="<%=Request.ApplicationPath %>/SysMana/SysLogin.aspx">后台登录</a>          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+  
+  <!--Social links Start-->
+  <section id="social" class="container">
+    <div class="leftline">@2013 西安交通大学.net第一组</div>
+  </section>
+  <!--Social links End-->
+  <!--Go to Top-->
+  <a style="display: block;" title="回到顶部" id="gotop" href="#">&nbsp;</a>
+</footer>
+<!--Footer End-->
+
+<!--Javascripts-->
+<script src="index_files/jquery-latest.js"></script>
+<script type="text/javascript" src="index_files/jquery_008.js"></script>
+<script type="text/javascript" src="index_files/jquery.js"></script>
+<script src="index_files/mediaelement-and-player.js"></script>
+<script type="text/javascript" src="index_files/jquery_007.js"></script>
+<script type="text/javascript" src="index_files/jquery_006.js"></script>
+<script type="text/javascript" src="index_files/jquery_005.js"></script><script type="text/javascript" src="index_files/jquery_002.js"></script>
+<script type="text/javascript" src="index_files/jquery_009.js"></script>
+<script type="text/javascript" src="index_files/jquery_004.js"></script>
+<script type="text/javascript" src="index_files/js"></script><script src="index_files/main.js" type="text/javascript"></script>
+<script type="text/javascript" src="index_files/jquery_003.js"></script>
+<script src="index_files/jflickrfeed.js"></script>
+<script type="text/javascript" src="index_files/script.js"></script>
+</body>
+</html>

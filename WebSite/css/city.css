@@ -1,0 +1,15 @@
+/* CSS Document */
+
+.display{
+display: list-item;
+}
+.nodisplay{
+background-color:#00FFFF;
+display:none;
+}
+.service{
+width:100%;
+}
+.service ul{
+list-style:none;
+}

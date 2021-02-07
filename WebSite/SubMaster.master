@@ -1,0 +1,315 @@
+﻿<%@ Master Language="C#" MasterPageFile="~/MainMaster.master" AutoEventWireup="true" CodeFile="SubMaster.master.cs" Inherits="SubMaster" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+
+<style type="text/css" media="screen">
+   
+    /*设置提示提示列表上的样式表*/
+    .search_link
+    {         
+         background-color:#FFFFFF;
+         cursor: pointer;
+         line-height:24px;
+         text-indent:6px;
+    }
+    /*设置当鼠标移动到提示列表上的样式表*/
+    .search_link_over
+    {     
+         background-color:#E8F2FE;
+         cursor: pointer;
+         line-height:24px;
+         text-indent:6px;
+
+    }
+    
+    /*设置显示搜索提示div的样式表*/
+    #search_div
+    {
+        position:absolute;
+        background-color:#FFFFFF;
+        text-align:left;
+        border:1px solid #000000;
+        border-top:0px;
+        display:none;
+        width:24%;
+    }
+    
+    </style>
+  <script src="js/jquery.js" type="text/javascript"></script>
+<script type="text/javascript">
+    var searchReq = createAjaxObj();
+    var OsTyep = '';
+    var isCheckDiv = true;
+    var index = -1; //表示当前选中的行索引
+    window.onload=getOs;
+    function getOs() {
+        //判断浏览器类型
+        if (navigator.userAgent.indexOf("MSIE") > 0) {
+            document.getElementById('txtSearch').attachEvent("onpropertychange", search);
+            OsTyep = "MSIE";
+        } else if (navigator.userAgent.indexOf("Firefox") > 0) {
+            document.getElementById('txtSearch').addEventListener("input", search, false);
+            OsTyep = "Firefox";
+        } else {
+            document.getElementById('txtSearch').addEventListener("input", search, false);  
+        }
+        document.onkeydown = keyDown;
+        //alert("sd");
+    }
+
+    function ClearOS() {
+        if (navigator.userAgent.indexOf("MSIE") > 0) {
+            document.getElementById('txtSearch').detachEvent("onpropertychange", search);
+            OsTyep = "MSIE";
+        } else if (navigator.userAgent.indexOf("Firefox") > 0) {
+            document.getElementById('txtSearch').removeEventListener("input", search, false);
+            OsTyep = "Firefox";
+        } else {
+            document.getElementById('txtSearch').removeEventListener("input", search, false);   
+        }
+    }
+
+    function createAjaxObj() {
+        var httpRequest = false;
+
+        //判断是否包含XMLHttpRequest对象 PS:将来IE高也有可能继承次对象
+        if (window.XMLHttpRequest) {
+            //火狐 , Safari 等浏览器
+            httpRequest = new XMLHttpRequest();
+            if (httpRequest.overrideMimeType)
+                httpRequest.overrideMimeType('text/xml');
+
+            //ie: onpropertychange
+            //ff: oninput
+        } //判断是否支持Active控件对象
+        else if (window.ActiveXObject) {
+            //IE浏览器
+            try {
+                //IE5.0
+                httpRequest = new ActiveXObject("Msxml2.XMLHTTP");
+            } catch (e) {
+                try {
+                    //IE5.5以上
+                    httpRequest = new ActiveXObject("Microsoft.XMLHTTP");
+                } catch (e) { }
+            }
+        }
+        //返回创建好的AJAX对象
+        return httpRequest;
+    }
+    //异步请求服务器获取搜索结果
+    function search() {
+//         if (searchReq.readyState == 4 || searchReq.readyState == 0) {
+//            //获得文本框中的值
+//             var valStr = escape(document.getElementById("txtSearch").value);
+//             var ncheck;
+//             if (document.getElementById("PrdRb").checked) { ncheck = "prd"; }
+//             else ncheck = "mer";
+//             //建立连接
+//            searchReq.open("GET", encodeURI('Search.aspx?search=' + valStr + '&ch=' + ncheck), true);
+//            //当请求状态改变时调用 handleSearch方法
+//            searchReq.onreadystatechange = handleSearch;
+//            searchReq.send(null);
+        //        }
+        //$("#divuser").html("nimei");
+        var jsdate;
+       //alert("fsf");
+        jsdate = "search=" + $("#txtSearch").val();
+        $.ajax({
+            type: "POST",
+            url: "Default.aspx",
+            data: jsdate,
+            async: true,
+            dataType: 'html',
+            complete: function(result) {
+                handleSearch(result);
+            }
+        });
+        
+    }
+    
+
+    //返回结果处理方法
+    function handleSearch(searchRe) {
+        //if (searchReq.readyState == 4) {
+            //获得搜索提示结果的元素DIV
+            var searchDIV = document.getElementById("search_div");
+            
+            //用''将返回的文本数据分割成数组
+            var resultStrArr = searchRe.responseText.split("^");
+            searchDIV.innerHTML = " ";
+
+            //循环构建HTML代码
+            for (var i = 0; i < resultStrArr.length - 1; i++) {
+                var htmlStr = '<div onmouseover="selectOverDiv(this,' + i + ');" ';
+                htmlStr += 'onmouseout="selectOutDiv(this,' + i + ');" ';
+                htmlStr += 'onclick="setSearch(this.innerHTML);" ';
+                htmlStr += 'class="search_link " style="display:block;width:100%;" >' + resultStrArr[i] + '</div>';
+
+                searchDIV.innerHTML += htmlStr;
+            }
+            ShowDiv();
+            index = -1;
+        //}
+    }
+    function selectOverDiv(div_value, i) {
+        div_value.className = "search_link_over";
+        var my_div = document.getElementById("search_div").getElementsByTagName("div")
+        var the_num = my_div.length;
+        for (var k = 0; k < the_num; k++) {
+            selectOut(my_div[k]);
+            if (k == i) {
+                selectOver(my_div[k])
+            }
+        }
+        isCheckDiv = true;
+        index = i;
+    }
+
+    function selectOutDiv(div_value, i) {
+        isCheckDiv = false;
+        div_value.className = "search_link";
+    }
+    
+    function selectOver(div_value) {
+        div_value.className = "search_link_over";
+        isCheckDiv = true;
+    }
+    
+    function selectOut(div_value) {
+        div_value.className = "search_link";
+    }
+    function setSearch(value) {
+        //清空文本框的内容改变事件是因为我们给选中值复制时 该事件会触发 
+        //所以先清空次事件
+        ClearOS();
+        document.getElementById("txtSearch").value = value;
+        //设置该属性为false 在调用HiddenDiv函数会隐藏提示结果DIV
+        isCheckDiv = false;
+        HiddenDiv();
+        //在赋值完成后再次附加修改时间
+        getOs();
+    }
+
+    function ShowDiv() {
+        var content = document.getElementById("txtSearch").value;
+        var divConten = document.getElementById("search_div").innerHTML;
+        if (content != '' && divConten != '') {
+            document.getElementById("search_div").style.display = "block"
+        } else {
+            isCheckDiv = false;
+            HiddenDiv();
+        }
+
+    }
+    function HiddenDiv() {
+        if (isCheckDiv == false) {
+            document.getElementById("search_div").style.display = "none";
+            document.getElementById("search_div").innerHTML = '';
+        }
+        if(this.value=='')this.value='请输入你想搜索的关键字';
+    }
+   
+    function SearchBtn_OnClick(){
+     location.href='<%=Request.ApplicationPath + "/Search.aspx?SearchContent="%>'+$("#txtSearch").val();
+    }
+    function keyDown() {
+        var value = event.keyCode
+        //向上38，向下40，回车13
+        var the_key = event.keyCode
+        //判断提示DIV是否是现实状态
+        if (document.getElementById("search_div").style.display != "none") {
+            //获取里面所用行
+            var my_div = document.getElementById("search_div").getElementsByTagName("div")
+            var the_num = my_div.length;
+            switch (the_key) {
+                case 40: //向下
+                    //判断index是否已经到最下面
+                    if (index != the_num - 1) {
+                        index++;
+                    }
+                    //清楚所有选中
+                    for (var i = 0; i < the_num; i++) {
+                        selectOut(my_div[i]);
+                    }
+                    //根据index选中对应索引行
+                    for (i = 0; i < the_num; i++) {
+                        if (i == index) {
+                            selectOver(my_div[i])
+                        }
+                    }
+                    break;
+                case 38: //向上
+                    //判断index是否已经到最上面
+                    if (index != -1) {
+                        index--; 
+                    }
+                    //清楚所有选中
+                    for (var i = 0; i < the_num; i++) {
+                        selectOut(my_div[i]);
+                    }
+                    //根据index选中对应索引行
+                    for (i = 0; i < the_num; i++) {
+                        if (i == index) {
+                            selectOver(my_div[i])
+                        }
+                    }
+                    break;
+                case 13: //回车
+                    //将选中的内容放入文本框中
+                    if (my_div[index].innerHTML != null) {
+                        setSearch(my_div[index].innerHTML);
+                    }
+                    break;
+            } 
+        } 
+    }
+    
+</script>
+<asp:ContentPlaceHolder ID="SubHead" runat="server"></asp:ContentPlaceHolder>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="HeadBar" Runat="Server">
+    <asp:ContentPlaceHolder ID="RegisterAEntry" runat="server">
+ </asp:ContentPlaceHolder>
+  <div class="container clearfix">
+    <a href="Default.aspx" id="logo">
+      <img src="images/logo.gif" alt="七彩云商家联盟" height="65" width="400" />    </a>
+     <asp:ContentPlaceHolder ID="CityBar" runat="server">
+     </asp:ContentPlaceHolder>
+    <nav id="topnav">
+      <ul>
+        <li class="active" id="bar1">
+          <a href="Default.aspx">首页</a>        </li>
+        <li id="bar2" >
+          <a href="industry.aspx" >行业展示</a>        </li>
+        <li id="bar3">
+          <a href="#">商家管理</a>
+		  <ul>
+           <li><a href="MerchantList.aspx">商家展示</a>            </li>
+            <li><a href="MerchantManage/MerchantJoin/MerchantJoin.aspx">商家入盟</a>            </li> 
+            <li><a href="MerchantManage/MerchantLogin/MerchantLogin.aspx">商家登录</a>            </li>          
+          </ul>
+        </li>
+        <li id="bar4">
+          <a href="NewsShow.aspx">联盟新闻</a>        </li>
+		
+      </ul>
+    <select><option value="" selected="selected">Go to...</option><option value="index.html">首页</option><option value="industry.html">行业展示</option><option value="#">商家展示</option><option value="news.html">联盟新闻</option><option value="personal.html">个人账户</option></select></nav>
+  </div>
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="SearchBar" Runat="Server">
+    <!--Header Part End-->
+<div class="sidecontainer">
+    <!--<h4 class="heading4">Search </h4>-->
+	<input id="SearchBtn" type="image"  src="images/search.png" style="background: #ffffff no-repeat center right; width:36px; height:20px;   border:1px; float:right; " runat="server" onclick="SearchBtn_OnClick()" />
+   <input  id="txtSearch" style="float:right ; padding-right:20px;  margin-right:0px;width:300px; height:20px;" onblur="HiddenDiv()" onFocus="if(this.value=='请输入你想搜索的关键字')this.value='';" value="请输入你想搜索的关键字" type="text"/>
+   
+	<h4 style="font-size:16px; float:right; padding-right:20px; font-style: normal; font-weight:300; color: #685f5e;">站内搜索 </h4>
+	 <div id="search_div" style="margin-top:32px; margin-left:61%; float:right; z-index:3;"></div>
+    </div>
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="ContentBar" Runat="Server">
+    <asp:ContentPlaceHolder ID="SubContentBar" runat="server">
+</asp:ContentPlaceHolder>
+</asp:Content>
+
